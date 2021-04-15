@@ -6,6 +6,12 @@ public class PlayerBehaviour : MonoBehaviour
 {
     public CharacterController controller;
 
+    [Header("Controls")]
+    public Joystick joystick;
+    public float horizontalSensitivity;
+    public float verticalSensitivity;
+
+
 
     [Header("Control Properties")]
     public float speed = 12f;
@@ -36,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     private void Update()
@@ -48,8 +54,14 @@ public class PlayerBehaviour : MonoBehaviour
             velocity.y = -2f;
         }
 
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+
+        // Input for webGL and Desktop
+        //float x = Input.GetAxis("Horizontal");
+        //float z = Input.GetAxis("Vertical");
+
+
+        float x = joystick.Horizontal;
+        float z = joystick.Vertical;
 
         Vector3 move = transform.right * x + transform.forward * z;
 
