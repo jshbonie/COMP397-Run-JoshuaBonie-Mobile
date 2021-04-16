@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class ControlPanelController : MonoBehaviour
 {
     public RectTransform rectTransform;
@@ -15,15 +16,22 @@ public class ControlPanelController : MonoBehaviour
     public float timer = 0.0f;
     public bool isOnScreen = false;
 
+    [Header("Player Settings")]
+    public PlayerBehaviour player;
     public MouseLook playerCamera;
 
     public Pausible pausible;
+
+    [Header("Scene Data")]
+    public SceneDataSO sceneData;
+
+    public GameObject gameStateElement;
 
     // Start is called before the first frame update
     void Start()
     {
         pausible = FindObjectOfType<Pausible>();
-
+        player = FindObjectOfType<PlayerBehaviour>();
         playerCamera = FindObjectOfType<MouseLook>();
 
         rectTransform = GetComponent<RectTransform>();
@@ -51,6 +59,9 @@ public class ControlPanelController : MonoBehaviour
         {
             MoveControlPanelUp();
         }
+
+        gameStateElement.SetActive(pausible.isGamePaused);
+
 
 
     }
@@ -105,5 +116,22 @@ public class ControlPanelController : MonoBehaviour
     public void OnControlButtonPressed()
     {
         ToggleControlPanel();
+    }
+
+    public void OnLoadButtonPressed()
+    {
+        player.controller.enabled = false;
+        player.transform.position = sceneData.playerPosition;
+        player.controller.enabled = true;
+
+        player.health = sceneData.playerHealth;
+        player.healthBar.SetHealth(sceneData.playerHealth);
+
+    }
+
+    public void OnSaveButtonPressed()
+    {
+        sceneData.playerPosition = player.transform.position;
+        sceneData.playerHealth = player.health;
     }
 }
