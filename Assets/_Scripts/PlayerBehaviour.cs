@@ -68,22 +68,32 @@ public class PlayerBehaviour : MonoBehaviour
         controller.Move(move * speed * Time.deltaTime);
 
 
-        if (Input.GetButtonDown("Jump") && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
-            jumpSound.Play();
-        }
+        //if (Input.GetButtonDown("Jump") && isGrounded)
+        //{
+        //    Jump();
+        //}
 
 
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
 
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            miniMap.SetActive(!miniMap.activeInHierarchy);
-        }
+        //if (Input.GetKeyDown(KeyCode.M))
+        //{
+        //    ToggleMinimap();
+        //}
 
+    }
+
+    void Jump()
+    {
+        velocity.y = Mathf.Sqrt(jumpHeight * -2.0f * gravity);
+        jumpSound.Play();
+    }
+
+    void ToggleMinimap()
+    {
+        miniMap.SetActive(!miniMap.activeInHierarchy);
     }
 
     public void TakeDamage(int damage)
@@ -96,5 +106,18 @@ public class PlayerBehaviour : MonoBehaviour
         {
             health = 0;
         }
+    }
+
+    public void OnJumpButtonPressed()
+    {
+        if (isGrounded)
+        {
+            Jump();
+        }
+    }
+
+    public void OnMapButtonPressed()
+    {
+        ToggleMinimap();
     }
 }
